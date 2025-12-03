@@ -89,7 +89,7 @@ export default function Contact() {
         {/* Social Icons */}
         <div className="mt-10 flex justify-center gap-6 text-2xl">
           <motion.a
-            href="https://github.com/yourusername"
+            href="https://github.com/Sheezylodhi"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.2 }}
