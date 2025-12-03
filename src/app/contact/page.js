@@ -7,7 +7,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await fetch("/api/contact", {
@@ -15,7 +15,6 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
       const result = await res.json();
       if (result.success) {
         setSuccess(true);
@@ -37,22 +36,20 @@ export default function Contact() {
         transition={{ duration: 0.8 }}
         className="w-full max-w-2xl bg-slate-900 p-8 rounded-2xl shadow-[0_0_40px_rgba(59,130,246,0.3)]"
       >
-        {/* Heading */}
         <h1 className="text-4xl font-extrabold mb-6 text-center bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
           Contact Me
         </h1>
         <p className="text-center text-gray-400 mb-8">
-          Let’s build something amazing together 🚀  
+          Let’s build something amazing together 🚀
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="text"
             placeholder="Your Name"
             className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
             value={form.name}
-            onChange={e => setForm({ ...form, name: e.target.value })}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
             required
           />
           <input
@@ -60,7 +57,7 @@ export default function Contact() {
             placeholder="Your Email"
             className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
             value={form.email}
-            onChange={e => setForm({ ...form, email: e.target.value })}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
             required
           />
           <textarea
@@ -68,7 +65,7 @@ export default function Contact() {
             rows="5"
             className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
             value={form.message}
-            onChange={e => setForm({ ...form, message: e.target.value })}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
             required
           />
           <motion.button
@@ -86,7 +83,6 @@ export default function Contact() {
           )}
         </form>
 
-        {/* Social Icons */}
         <div className="mt-10 flex justify-center gap-6 text-2xl">
           <motion.a
             href="https://github.com/Sheezylodhi"
@@ -107,7 +103,7 @@ export default function Contact() {
             <FaLinkedin />
           </motion.a>
           <motion.a
-            href="mailto:your@email.com"
+            href="mailto:muhammadshahzaiblodhi@gmail.com"
             whileHover={{ scale: 1.2 }}
             className="text-gray-400 hover:text-red-400 transition"
           >
