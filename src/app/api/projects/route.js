@@ -1,48 +1,84 @@
 import { NextResponse } from "next/server";
 import connect from "@/lib/db";
 import { Project } from "@/lib/model/Project";
+import fs from "fs";
+import path from "path";
 
-// GET: all projects
+// ❗ Required for file uploads in Next.js 15 (app router)
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// --------------------------
+// 📌 GET — Fetch All Projects
+// --------------------------
 export async function GET() {
-  await connect();
-  const data = await Project.find();
-  return NextResponse.json({ result: data });
-}
-
-// POST: add project
-export async function POST(req) {
-  // admin check (cookie based)
-  const cookieHeader = req.headers.get("cookie") || "";
-  const isAdmin = cookieHeader
-    .split(";")
-    .map(s => s.trim())
-    .includes("admin=1");
-
-  if (!isAdmin) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized" },
-      { status: 401 }
-    );
-  }
-
   try {
     await connect();
-    const body = await req.json();
+    const projects = await Project.find({});
+    return NextResponse.json({ success: true, result: projects });
+  } catch (error) {
+    return NextResponse.json({ success: false, message: error.message });
+  }
+}
 
-    // Ensure required fields exist
-    const { title, description, link, image } = body;
-    if (!title || !description || !link || !image) {
-      return NextResponse.json(
-        { success: false, message: "All fields are required" },
-        { status: 400 }
-      );
+// --------------------------
+// 📌 POST — Create Project
+// --------------------------
+export async function POST(req) {
+  try {
+    await connect();
+
+    // Admin check
+    const cookieHeader = req.headers.get("cookie") || "";
+    const isAdmin = cookieHeader.split(";").map(s => s.trim()).includes("admin=1");
+    if (!isAdmin)
+      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+
+    // Read formData
+    const formData = await req.formData();
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const link = formData.get("link");
+
+    if (!title || !description)
+      return NextResponse.json({ success: false, message: "Title & description required" });
+
+    // Files array
+    const files = formData.getAll("images"); // multiple images
+    const uploadDir = path.join(process.cwd(), "public/uploads");
+
+    if (!fs.existsSync(uploadDir))
+      fs.mkdirSync(uploadDir, { recursive: true });
+
+    const images = [];
+
+    // Save each file
+    for (const file of files) {
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const filePath = path.join(uploadDir, file.name);
+      fs.writeFileSync(filePath, buffer);
+
+      images.push(`/uploads/${file.name}`);
     }
 
-    const newProject = new Project({ title, description, link, image });
+    // Save to DB
+    const newProject = new Project({
+      title,
+      description,
+      link,
+      images,
+    });
+
     await newProject.save();
 
     return NextResponse.json({ success: true, newProject });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("POST /api/projects error:", error);
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
