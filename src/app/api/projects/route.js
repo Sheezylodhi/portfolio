@@ -4,13 +4,6 @@ import { Project } from "@/lib/model/Project";
 import fs from "fs";
 import path from "path";
 
-// ❗ Required for file uploads in Next.js 15 (app router)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 // --------------------------
 // 📌 GET — Fetch All Projects
 // --------------------------
