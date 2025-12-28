@@ -2,126 +2,165 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { darkMode, setDarkMode } = useTheme();
   const [scroll, setScroll] = useState(0);
+  const [active, setActive] = useState("hero");
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "Home", href: "#hero" },
+    { name: "About", href: "#about" },
+    { name: "Experience", href: "#experience" },
+    { name: "Skills", href: "#skills" },
+    { name: "Services", href: "#services" },
+    { name: "Projects", href: "#projects" },
+    { name: "Why Hire Me", href: "#whyhireme" },
+    { name: "Contact", href: "#contact" },
   ];
+
+  // body scroll lock
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "auto";
+  }, [open]);
 
   useEffect(() => {
     const handleScroll = () => setScroll(window.scrollY);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md transition-all duration-500 shadow-lg border-b ${
-        darkMode
-          ? scroll > 10
-            ? "bg-black/90 border-gray-700 shadow-black/60"
-            : "bg-black/80 border-gray-800 shadow-black/40"
-          : scroll > 10
-          ? "bg-white/90 border-gray-200 shadow-gray-400/60"
-          : "bg-white/80 border-gray-200 shadow-gray-400/30"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <h1 className={`text-2xl font-bold transition-colors duration-500 ${darkMode ? "text-white" : "text-black"}`}>
-          Shahzaib
-        </h1>
-
-        {/* Desktop Links */}
-        <div className="space-x-8 hidden md:flex">
-          {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className="relative group">
-              <span
-                className={`transition-colors duration-300 ${
-                  darkMode
-                    ? "text-white group-hover:text-blue-400"
-                    : "text-black group-hover:text-blue-600"
-                }`}
-              >
-                {link.name}
-              </span>
-              <span
-                className={`absolute left-0 -bottom-1 w-0 h-[2px] transition-all duration-300 ${
-                  darkMode ? "bg-blue-400" : "bg-blue-600"
-                } group-hover:w-full`}
-              ></span>
-            </Link>
-          ))}
-        </div>
-
-        {/* Right Section */}
-        <div className="flex items-center gap-4">
-          {/* Dark/Light Toggle */}
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full transition-colors hover:bg-blue-500/20"
-          >
-            {darkMode ? <Sun size={20} className="text-white" /> : <Moon size={20} className="text-black" />}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 rounded-full hover:bg-blue-500/20 transition-colors"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? (
-              <X size={28} className={`${darkMode ? "text-white" : "text-black"}`} />
-            ) : (
-              <Menu size={28} className={`${darkMode ? "text-white" : "text-black"}`} />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          open ? "max-h-96" : "max-h-0"
+    <>
+      {/* NAVBAR */}
+      <nav
+        className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md transition-all duration-500 border-b ${
+          darkMode
+            ? scroll > 10
+              ? "bg-black/90 border-gray-700"
+              : "bg-black/70 border-gray-800"
+            : scroll > 10
+            ? "bg-white/90 border-gray-200"
+            : "bg-white/70 border-gray-200"
         }`}
       >
-        <div
-          className={`flex flex-col px-6 pb-4 space-y-4 transition-colors duration-500 ${
-            darkMode ? "bg-black" : "bg-white"
-          }`}
-        >
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="block relative group"
-              onClick={() => setOpen(false)} // close menu on link click
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className={`text-2xl font-extrabold ${darkMode ? "text-white" : "text-black"}`}>
+            Shahzaib
+          </h1>
+
+          {/* DESKTOP MENU */}
+          <div className="hidden lg:flex gap-8">
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.href} className="relative">
+                <span
+                  className={`font-medium transition ${
+                    darkMode ? "text-white" : "text-black"
+                  }`}
+                >
+                  {link.name}
+                </span>
+                {active === link.href.replace("#", "") && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute left-0 -bottom-1 h-[2px] w-full bg-blue-500"
+                  />
+                )}
+              </Link>
+            ))}
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full hover:bg-blue-500/20 transition"
             >
-              <span
-                className={`transition-colors duration-300 ${
-                  darkMode
-                    ? "text-white group-hover:text-blue-400"
-                    : "text-black group-hover:text-blue-600"
-                }`}
-              >
-                {link.name}
-              </span>
-              <span
-                className={`absolute left-0 bottom-0 w-0 h-[2px] transition-all duration-300 ${
-                  darkMode ? "bg-blue-400" : "bg-blue-600"
-                } group-hover:w-full`}
-              ></span>
-            </Link>
-          ))}
+              {darkMode ? <Sun size={20} className="text-white" /> : <Moon size={20} />}
+            </button>
+
+            {/* MOBILE BUTTON */}
+            <button
+              onClick={() => setOpen(true)}
+              className="lg:hidden p-2 rounded-full hover:bg-blue-500/20"
+            >
+              <Menu size={28} className={darkMode ? "text-white" : "text-black"} />
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* MOBILE DRAWER */}
+      <AnimatePresence>
+        {open && (
+          <>
+            {/* OVERLAY */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998]"
+              onClick={() => setOpen(false)}
+            />
+
+            {/* DRAWER */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 120 }}
+              className={`fixed top-0 left-0 h-screen w-[80%] max-w-sm z-[9999] ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
+            >
+              <div className="flex justify-between items-center px-6 py-5 border-b">
+                <h2 className="text-xl font-bold">Menu</h2>
+                <button onClick={() => setOpen(false)}>
+                  <X size={26} />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-6 px-6 py-8">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className="text-lg font-medium hover:text-blue-500 transition"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

@@ -10,7 +10,8 @@ const roles = [
   "Backend Developer",
   "Full-Stack Developer",
   "Next.js Expert",
-  "MERN Stack Developer",
+  "React.js Expert",
+  "Node.js Expert",
   "UI/UX Focused Engineer",
 ];
 
@@ -56,11 +57,12 @@ export default function Hero() {
   }, [charIndex, isDeleting, index]);
 
   return (
-   <section
-  className={`relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden transition-colors duration-500 ${
-    darkMode ? "bg-[#050506]" : "bg-white"
-  } ${darkMode ? "text-white" : "text-black"}`}
+  <section
+  className={`relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden ${
+    darkMode ? "text-white" : "text-black"
+  }`}
 >
+
   {/* Hero Content */}
   <div className="relative z-10 w-full max-w-5xl text-center md:text-left">
     <div className="mx-auto max-w-3xl px-6 py-16">
@@ -123,6 +125,8 @@ export default function Hero() {
       </motion.div>
     </div>
   </div>
+  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+
 </section>
 
   );
