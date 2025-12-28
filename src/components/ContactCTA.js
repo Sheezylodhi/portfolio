@@ -5,7 +5,20 @@ import { motion } from "framer-motion";
 
 export default function ContactCTA() {
   const whatsappNumber = "923053062245"; // apna number
-  const whatsappMsg = "Hello Shahzaib! I want to hire you.";
+  const whatsappMsg = `
+Hello Shahzaib,
+
+I visited your portfolio and would like to discuss a project.
+
+📌 Project Type:
+📌 Budget Range:
+📌 Timeline:
+📌 Additional Notes:
+
+Looking forward to your reply.
+
+Best regards
+`;
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     whatsappMsg
   )}`;

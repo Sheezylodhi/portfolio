@@ -73,7 +73,7 @@ export default function Hero() {
         className="transform-gpu perspective-1000"
       >
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-          <span className="block">I’m A</span>
+          <span className="block">I’m a</span>
         </h1>
 
         {/* Typewriter Chip */}
@@ -106,10 +106,10 @@ export default function Hero() {
           transition={{ delay: 0.9 }}
         >
           <a
-            href="/projects"
+            href="#projects"
             className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3 rounded-full text-white font-semibold shadow-lg transform hover:scale-105 transition"
           >
-            🚀 View Projects
+             View Projects
           </a>
         </motion.div>
 
