@@ -325,11 +325,11 @@ export default function PremiumProjects() {
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.8 }}
-    className="relative z-20 max-w-7xl mx-auto px-6 py-20"
+    className="relative z-20 max-w-7xl mx-auto px-6 py-20 sm:px-6 lg:px-8"
   >
     
 
-      <div className="relative z-20 max-w-7xl mx-auto px-6 py-20">
+      <div className="relative z-20 max-w-7xl mx-auto px-6 py-20 sm:px-6 lg:px-8">
         <motion.h1
           initial={{ opacity: 0, y: -30, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

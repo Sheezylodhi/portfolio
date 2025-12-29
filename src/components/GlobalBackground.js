@@ -76,14 +76,17 @@ function ParticleCanvas({ density = 0.001, bgColor }) {
 // ---------- Parallax Glow ----------
 function ParallaxBg({ darkMode }) {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden max-w-full">
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full">
+      {/* Top-left circle */}
       <div
-        className={`absolute -top-40 -left-32 w-[60vw] h-[60vw] max-w-[900px] max-h-[900px] rounded-full blur-3xl opacity-40 ${
+        className={`absolute -top-[10vw] -left-[10vw] w-[60vw] max-w-[400px] h-[60vw] max-h-[400px] rounded-full blur-3xl opacity-40 ${
           darkMode ? "bg-purple-600/40" : "bg-purple-300/40"
         } animate-pulse`}
       />
+
+      {/* Bottom-right circle */}
       <div
-        className={`absolute top-40 right-0 translate-x-1/4 w-[45vw] h-[45vw] max-w-[700px] max-h-[700px] rounded-full blur-3xl opacity-30 ${
+        className={`absolute top-[50%] right-0 translate-x-1/4 w-[45vw] max-w-[350px] h-[45vw] max-h-[350px] rounded-full blur-3xl opacity-30 ${
           darkMode ? "bg-cyan-500/40" : "bg-cyan-300/40"
         } animate-pulse`}
       />
@@ -97,7 +100,7 @@ export default function GlobalBackground() {
   const bgColor = darkMode ? "rgba(0,0,0,1)" : "rgba(255,255,255,1)";
 
   return (
-   <div className="fixed inset-0 -z-10 overflow-hidden max-w-full">
+    <div className="fixed inset-0 -z-10 overflow-hidden w-full">
       <ParallaxBg darkMode={darkMode} />
       <ParticleCanvas density={0.001} bgColor={bgColor} />
     </div>

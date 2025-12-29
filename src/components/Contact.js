@@ -7,7 +7,7 @@ import { useTheme } from "@/context/ThemeContext";
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [success, setSuccess] = useState(false);
-  const { darkMode } = useTheme(); // ✅ Here is the key: use ThemeContext
+  const { darkMode } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,15 +32,14 @@ export default function Contact() {
 
   return (
     <section
-  className={`relative min-h-screen flex items-center justify-center px-6 py-16 ${
-    darkMode ? "text-white" : "text-gray-900"
-  }`}
->
-
+      className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 py-12 sm:py-16 ${
+        darkMode ? "text-white" : "text-gray-900"
+      }`}
+    >
       {/* Floating gradient blobs */}
       <div
         aria-hidden
-        className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full blur-3xl opacity-40"
+        className="absolute -top-[10vw] -left-[10vw] w-[50vw] max-w-[300px] h-[50vw] max-h-[300px] rounded-full blur-3xl opacity-40"
         style={{
           background: "radial-gradient(circle at 30% 30%, #7a3cff, transparent 40%)",
           animation: "float1 15s ease-in-out infinite",
@@ -48,7 +47,7 @@ export default function Contact() {
       />
       <div
         aria-hidden
-        className="absolute bottom-[-120px] right-[-100px] w-[500px] h-[500px] rounded-full blur-2xl opacity-30"
+        className="absolute top-[50%] right-0 translate-x-1/4 w-[40vw] max-w-[250px] h-[40vw] max-h-[250px] rounded-full blur-2xl opacity-30"
         style={{
           background: "radial-gradient(circle at 70% 70%, #00e6ff, transparent 40%)",
           animation: "float2 18s ease-in-out infinite",
@@ -68,24 +67,28 @@ export default function Contact() {
       `}</style>
 
       <motion.div
-  initial={{ opacity: 0, y: 60 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.8 }}
-  className={`relative w-full max-w-2xl p-8 rounded-3xl ${
-    darkMode
-      ? "bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-[12px]"
-      : "bg-white/80 backdrop-blur-lg"
-  }`}
->
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className={`relative w-full max-w-2xl p-6 sm:p-8 md:p-10 rounded-3xl ${
+          darkMode
+            ? "bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-[12px]"
+            : "bg-white/80 backdrop-blur-lg"
+        }`}
+      >
         <h1
-          className={`text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent ${
+          className={`text-3xl sm:text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent ${
             darkMode ? "bg-gradient-to-r from-purple-300 to-cyan-200" : "bg-gradient-to-r from-purple-600 to-blue-500"
           }`}
         >
           Contact Me
         </h1>
-        <p className={`text-center mb-8 transition-colors duration-500 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+        <p
+          className={`text-center mb-8 transition-colors duration-500 ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          } text-base sm:text-lg`}
+        >
           Let’s build something amazing together 🚀
         </p>
 
@@ -139,7 +142,11 @@ export default function Contact() {
             Send Message
           </motion.button>
           {success && (
-            <p className={`text-center mt-4 font-medium transition-colors duration-500 ${darkMode ? "text-green-400" : "text-green-600"}`}>
+            <p
+              className={`text-center mt-4 font-medium transition-colors duration-500 ${
+                darkMode ? "text-green-400" : "text-green-600"
+              }`}
+            >
               ✅ Message sent successfully!
             </p>
           )}
@@ -151,7 +158,9 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.2 }}
-            className={`transition-colors ${darkMode ? "text-gray-400 hover:text-white" : "text-gray-600 hover:text-black"}`}
+            className={`transition-colors ${
+              darkMode ? "text-gray-400 hover:text-white" : "text-gray-600 hover:text-black"
+            }`}
           >
             <FaGithub />
           </motion.a>
@@ -160,14 +169,18 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.2 }}
-            className={`transition-colors ${darkMode ? "text-gray-400 hover:text-blue-400" : "text-gray-600 hover:text-blue-500"}`}
+            className={`transition-colors ${
+              darkMode ? "text-gray-400 hover:text-blue-400" : "text-gray-600 hover:text-blue-500"
+            }`}
           >
             <FaLinkedin />
           </motion.a>
           <motion.a
             href="mailto:muhammadshahzaiblodhi@gmail.com"
             whileHover={{ scale: 1.2 }}
-            className={`transition-colors ${darkMode ? "text-gray-400 hover:text-red-400" : "text-gray-600 hover:text-red-500"}`}
+            className={`transition-colors ${
+              darkMode ? "text-gray-400 hover:text-red-400" : "text-gray-600 hover:text-red-500"
+            }`}
           >
             <FaEnvelope />
           </motion.a>

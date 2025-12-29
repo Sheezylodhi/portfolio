@@ -19,7 +19,7 @@ export default function Section({ id, title, children, fullScreen }) {
       className={`
         relative w-full flex flex-col justify-center
         scroll-mt-24 px-4
-        ${fullScreen ? "min-h-screen py-16 md:py-24" : "py-12 md:py-16"}
+        ${fullScreen ? "min-h-screen py-16 md:py-24" : "py-12 md:py-16 overflow-x-hidden"}
       `}
     >
       {title && (

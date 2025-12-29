@@ -34,7 +34,7 @@ export default function Home() {
       <CursorGlow />
       <Navbar />
 
-      <main className="pt-0 pb-0 relative z-10  max-w-full">
+      <main className="pt-0 pb-0 relative z-10  max-w-full overflow-x-hidden">
         <Section id="hero" fullScreen>
           <Hero />
         </Section>

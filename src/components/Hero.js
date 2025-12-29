@@ -58,7 +58,7 @@ export default function Hero() {
 
   return (
   <section
-  className={`relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden ${
+  className={`relative h-100 flex flex-col justify-center items-center px-6 overflow-hidden ${
     darkMode ? "text-white" : "text-black"
   }`}
 >
