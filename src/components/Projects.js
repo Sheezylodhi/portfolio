@@ -3,20 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 
-
-const sliderRef = useRef(null);
-
-const scroll = (direction) => {
-  if (!sliderRef.current) return;
-
-  const amount = 340;
-
-  sliderRef.current.scrollBy({
-    left: direction === "left" ? -amount : amount,
-    behavior: "smooth",
-  });
-};
-
 /* ---------------------------
   Ultra Premium Projects Page
    - Particles canvas
@@ -355,34 +341,11 @@ export default function PremiumProjects() {
           PortFolio Project
         </motion.h1>
 
-       {/* ===== ARROWS ===== */}
-<div className="flex justify-end gap-3 mb-6">
-  <button
-    onClick={() => scroll("left")}
-    className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100"
-  >
-    ←
-  </button>
-
-  <button
-    onClick={() => scroll("right")}
-    className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100"
-  >
-    →
-  </button>
-</div>
-
-{/* ===== HORIZONTAL SLIDER ===== */}
-<div
-  ref={sliderRef}
-  className="flex gap-8 overflow-x-auto pb-6 scroll-smooth snap-x snap-mandatory"
->
-  {projects.map((p, i) => (
-    <div key={p._id} className="min-w-[320px] snap-center">
-      <ProjectCardVIP project={p} index={i} />
-    </div>
-  ))}
-</div>
+        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((p, i) => (
+            <ProjectCardVIP project={p} index={i} key={p._id} />
+          ))}
+        </div>
       </div>
     </motion.div>
     </section>
