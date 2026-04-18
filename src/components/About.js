@@ -23,24 +23,7 @@ export default function About() {
     >
       <div className="relative z-10 w-full max-w-6xl flex flex-col md:flex-row items-center gap-10 md:gap-16">
         
-        {/* Profile Image */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="flex-shrink-0"
-        >
-          <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-blue-500/10 shadow-2xl">
-            <Image 
-              src="/me.jpg" 
-              alt="Shahzaib" 
-              fill 
-              className="object-cover hover:scale-105 transition-transform duration-500" 
-              priority 
-            />
-          </div>
-        </motion.div>
+       
 
         {/* About Text */}
         <motion.div
