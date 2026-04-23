@@ -3,7 +3,7 @@ import connect from "@/lib/db";
 import { Project } from "@/lib/model/Project";
 import { v2 as cloudinary } from "cloudinary";
 
-// ✅ Cloudinary config
+// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -12,51 +12,57 @@ cloudinary.config({
 
 export async function DELETE(req, { params }) {
   try {
-    // ✅ Admin check
-    const cookieHeader = req.headers.get("cookie") || "";
-    const isAdmin = cookieHeader
-      .split(";")
-      .map((s) => s.trim())
-      .includes("admin=1");
+    await connect();
 
-    if (!isAdmin) {
+    // ✅ 1. Validate ID
+    if (!params?.id) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
-        { status: 401 }
+        { success: false, message: "Project ID missing" },
+        { status: 400 }
       );
     }
 
-    await connect();
+    console.log("Deleting Project ID:", params.id);
 
+    // ✅ 2. Find project
     const project = await Project.findById(params.id);
 
-    // ❌ Not found
     if (!project) {
       return NextResponse.json(
-        { success: false, message: "Project not found" },
+        { success: false, message: "Project not found in database" },
         { status: 404 }
       );
     }
 
-    // ✅ Cloudinary images delete
-    if (project.images && project.images.length > 0) {
+    // ✅ 3. Delete Cloudinary images safely
+    if (project.images?.length > 0) {
       for (const url of project.images) {
-        const publicId = url.split("/").pop().split(".")[0];
+        try {
+          const parts = url.split("/");
+          const fileName = parts[parts.length - 1]; // last part
+          const publicId = "projects/" + fileName.split(".")[0];
 
-        await cloudinary.uploader.destroy(`projects/${publicId}`);
+          await cloudinary.uploader.destroy(publicId);
+        } catch (err) {
+          console.log("Cloudinary delete error:", err.message);
+        }
       }
     }
 
-    // ✅ Delete from DB
+    // ✅ 4. Delete from DB
     await Project.findByIdAndDelete(params.id);
 
-    return NextResponse.json({ success: true });
-
+    return NextResponse.json({
+      success: true,
+      message: "Project deleted successfully",
+    });
   } catch (error) {
-    console.error("DELETE error:", error);
+    console.error("DELETE ERROR:", error);
 
     return NextResponse.json(
-      { success: false, message: error.message },
+      { success: false,
+        message: error.message || "Server error"
+      },
       { status: 500 }
     );
   }
