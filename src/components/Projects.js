@@ -3,6 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 
+
+
+
+
+
 /* ---------------------------
   Ultra Premium Projects Page
    - Particles canvas
@@ -304,6 +309,16 @@ export default function PremiumProjects() {
   const [projects, setProjects] = useState([]);
   const { darkMode } = useTheme(); // use darkMode for page
 
+  const scrollRef = useRef(null);
+
+const scrollLeft = () => {
+  scrollRef.current?.scrollBy({ left: -400, behavior: "smooth" });
+};
+
+const scrollRight = () => {
+  scrollRef.current?.scrollBy({ left: 400, behavior: "smooth" });
+};
+
   useEffect(() => {
     async function load() {
       try {
@@ -340,17 +355,44 @@ export default function PremiumProjects() {
         >
           PortFolio Project
         </motion.h1>
+        <div className="relative">
 
-       <div className="flex gap-6 overflow-x-auto scroll-smooth pb-6 px-2 no-scrollbar snap-x snap-mandatory">
-  {projects.map((p, i) => (
-    <div
-      key={p._id}
-      className="flex-shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%] snap-start"
-    >
-      <ProjectCardVIP project={p} index={i} />
-    </div>
-  ))}
-</div>
+  {/* 🔥 Arrows */}
+  <button
+    onClick={scrollLeft}
+    className="hidden md:flex items-center justify-center absolute left-0 top-1/2 -translate-y-1/2 z-30 bg-black/50 text-white w-10 h-10 rounded-full backdrop-blur-md hover:scale-110 transition"
+  >
+    ❮
+  </button>
+
+  <button
+    onClick={scrollRight}
+    className="hidden md:flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2 z-30 bg-black/50 text-white w-10 h-10 rounded-full backdrop-blur-md hover:scale-110 transition"
+  >
+    ❯
+  </button>
+
+       <div
+    ref={scrollRef}
+    className="flex gap-6 overflow-x-auto scroll-smooth pb-6 px-2 no-scrollbar snap-x snap-mandatory"
+  >
+    {projects.map((p, i) => (
+      <div
+        key={p._id}
+        className="flex-shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%] snap-start"
+      >
+        <ProjectCardVIP project={p} index={i} />
+      </div>
+    ))}
+  </div>
+
+  {/* 🔥 Swipe Text */}
+  <div className="flex justify-center mt-4">
+    <p className="text-sm text-gray-400 animate-pulse">
+      ⟷ Swipe for more
+    </p>
+  </div>
+  </div>
       </div>
     </motion.div>
     </section>
