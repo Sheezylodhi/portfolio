@@ -55,7 +55,7 @@ export default function Hero() {
   return (
     <section
       className={`relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden ${
-        darkMode ? "bg-[#020617] text-white" : "bg-gray-50 text-black"
+        darkMode ? " text-white" : "bg-gray-50 text-black"
       }`}
     >
       {/* Hero Content */}
