@@ -65,7 +65,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <h1 className={`text-2xl font-extrabold ${darkMode ? "text-white" : "text-black"}`}>
-            Shahzaib
+            Evan Brooks
           </h1>
 
           {/* DESKTOP MENU */}

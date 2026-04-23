@@ -27,8 +27,10 @@ export async function POST(req) {
     // Admin check
     const cookieHeader = req.headers.get("cookie") || "";
     const isAdmin = cookieHeader.split(";").map(s => s.trim()).includes("admin=1");
-    if (!isAdmin)
+
+    if (!isAdmin) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    }
 
     // Read formData
     const formData = await req.formData();
@@ -36,27 +38,26 @@ export async function POST(req) {
     const description = formData.get("description");
     const link = formData.get("link");
 
-    if (!title || !description)
+    if (!title || !description) {
       return NextResponse.json({ success: false, message: "Title & description required" });
+    }
 
-    // Files array
-    const files = formData.getAll("images"); // multiple images
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-
-    if (!fs.existsSync(uploadDir))
-      fs.mkdirSync(uploadDir, { recursive: true });
-
+    const files = formData.getAll("images");
     const images = [];
 
-    // Save each file
+    // Upload each image to Cloudinary
     for (const file of files) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      const filePath = path.join(uploadDir, file.name);
-      fs.writeFileSync(filePath, buffer);
+      const base64 = buffer.toString("base64");
+      const dataURI = `data:${file.type};base64,${base64}`;
 
-      images.push(`/uploads/${file.name}`);
+      const uploadRes = await cloudinary.uploader.upload(dataURI, {
+        folder: "projects",
+      });
+
+      images.push(uploadRes.secure_url);
     }
 
     // Save to DB
@@ -70,6 +71,7 @@ export async function POST(req) {
     await newProject.save();
 
     return NextResponse.json({ success: true, newProject });
+
   } catch (error) {
     console.error("POST /api/projects error:", error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
