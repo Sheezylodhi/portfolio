@@ -11,6 +11,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.9.0",
     "dotenv": "^17.2.2",
     "formidable": "^3.5.4",
     "formidable-serverless": "^1.1.1",
