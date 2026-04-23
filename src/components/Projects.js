@@ -341,11 +341,16 @@ export default function PremiumProjects() {
           PortFolio Project
         </motion.h1>
 
-        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, i) => (
-            <ProjectCardVIP project={p} index={i} key={p._id} />
-          ))}
-        </div>
+       <div className="flex gap-6 overflow-x-auto scroll-smooth pb-6 px-2 no-scrollbar snap-x snap-mandatory">
+  {projects.map((p, i) => (
+    <div
+      key={p._id}
+      className="flex-shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%] snap-start"
+    >
+      <ProjectCardVIP project={p} index={i} />
+    </div>
+  ))}
+</div>
       </div>
     </motion.div>
     </section>
