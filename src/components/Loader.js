@@ -16,7 +16,7 @@ export default function Loader({ onFinish }) {
         transition={{ repeat: Infinity, duration: 1, repeatType: "reverse" }}
         className="text-white text-4xl font-extrabold tracking-widest"
       >
-        Evan Brooks
+        Shahzaib
       </motion.h1>
     </motion.div>
   );
